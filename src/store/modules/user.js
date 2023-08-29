@@ -18,9 +18,9 @@ export default {
   actions: {
     async login(context, data) {
       // todo: 调用登录接口
-      const token = await login(data)
+      // const token = await login(data)
       // 返回一个token 123456
-      context.commit('setToken', token)
+      // context.commit('setToken', token)
     }
   }
 }

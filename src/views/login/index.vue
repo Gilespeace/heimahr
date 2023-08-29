@@ -22,11 +22,13 @@
             <el-button style="width:350px" type="primary" @click="login">登录</el-button>
           </el-form-item>
         </el-form>
+        <button @click="text">text</button>
       </el-card>
     </div>
   </div>
 </template>
 <script>
+import service from '@/utils/request'
 export default {
   name: 'Login',
   data() {
@@ -75,6 +77,16 @@ export default {
         if (isOK) {
           // alert('校验通过')
           this.$store.dispatch('user/login', this.loginForm)
+        }
+      })
+    },
+    text() {
+      service({
+        method: 'post',
+        url: '/sys/profile',
+        data: {
+          mobile: '13189898989',
+          password: '123456'
         }
       })
     }
