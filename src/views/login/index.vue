@@ -11,7 +11,7 @@
             <el-input v-model="loginForm.mobile" placeholder="请输入手机号" />
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="loginForm.password" placeholder="请输入密码" />
+            <el-input v-model="loginForm.password" placeholder="请输入密码" type="password" />
           </el-form-item>
           <el-form-item prop="isAgree">
             <el-checkbox v-model="loginForm.isAgree">
@@ -22,21 +22,20 @@
             <el-button style="width:350px" type="primary" @click="login">登录</el-button>
           </el-form-item>
         </el-form>
-        <button @click="text">text</button>
       </el-card>
     </div>
   </div>
 </template>
 <script>
-import service from '@/utils/request'
 export default {
   name: 'Login',
   data() {
     return {
       loginForm: {
-        mobile: '',
-        password: '',
-        isAgree: false
+        // 判断开发还是生产环境
+        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
+        password: process.env.NODE_ENV === 'development' ? 'hm#qd@23!' : '',
+        isAgree: process.env.NODE_ENV === 'development'
       },
       loginRules: {
         mobile: [{
@@ -52,7 +51,8 @@ export default {
           required: true,
           message: '请输入密码',
           trigger: 'blur'
-        }, {
+        },
+        {
           min: 6,
           max: 16,
           message: '密码长度应该为6-16位之间',
@@ -73,20 +73,15 @@ export default {
   },
   methods: {
     login() {
-      this.$refs.form.validate((isOK) => {
+      this.$refs.form.validate(async(isOK) => {
         if (isOK) {
-          // alert('校验通过')
-          this.$store.dispatch('user/login', this.loginForm)
-        }
-      })
-    },
-    text() {
-      service({
-        method: 'post',
-        url: '/sys/profile',
-        data: {
-          mobile: '13189898989',
-          password: '123456'
+          // 用await 等待promise 返回结果
+          // 返回结果是true 表示验证通过
+          // 返回结果是false 表示验证失败
+          // 验证通过 执行下面代码
+          // 验证失败 提示错误信息(这里响应拦截器里已做提示)
+          await this.$store.dispatch('user/login', this.loginForm)
+          this.$router.push('/')
         }
       })
     }
