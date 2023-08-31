@@ -7,3 +7,8 @@ export function login(data) {
     data
   })
 }
+export function getUserinfoAPI() {
+  return request({
+    url: '/sys/profile'
+  })
+}
