@@ -81,6 +81,7 @@ export default {
           // 验证通过 执行下面代码
           // 验证失败 提示错误信息(这里响应拦截器里已做提示)
           await this.$store.dispatch('user/login', this.loginForm)
+          this.$message({ message: '恭喜你，登录成功', type: 'success' })
           this.$router.push('/')
         }
       })
