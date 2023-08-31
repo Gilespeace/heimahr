@@ -22,6 +22,12 @@ export default {
     }
   },
   actions: {
+    // 退出
+    // 退出登录的action
+    logout(context) {
+      context.commit('removeToken') // 删除token
+      context.commit('setUserInfo', {}) // 设置用户信息为空对象
+    },
     // 登录
     async login(context, data) {
       // todo: 调用登录接口
